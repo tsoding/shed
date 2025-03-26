@@ -1,5 +1,6 @@
 import core.stdc.string;
 import core.stdc.stdio;
+import core.stdc.stdlib;
 import core.stdc.ctype;
 import core.stdc.errno;
 import luna;
@@ -17,8 +18,7 @@ void parseCommand(char[] s, ref Array!(char[]) args) {
 extern(C) int main(int argc, char **argv) {
     Array!(char[]) args;
     char[1024] inputBuffer;
-    bool quit = false;
-    while (!quit && !feof(stdin)) {
+    while (!feof(stdin)) {
         printf("> ");
         // TODO: readline support
         if (!fgets(inputBuffer.ptr, inputBuffer.length, stdin)) break; // stdin is closed
@@ -29,9 +29,8 @@ extern(C) int main(int argc, char **argv) {
         if (args.length == 0) continue; // empty command
         switch (args[0]) {
         case "exit":
-            // TODO: support exit code
-            quit = true;
-            break;
+            // TODO: support exit code argument
+            exit(0);
         default:
             cmdRunSync(args.slice());
         }
