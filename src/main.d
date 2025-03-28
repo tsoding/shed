@@ -4,6 +4,7 @@ import core.stdc.stdlib;
 import core.stdc.ctype;
 import core.stdc.errno;
 import luna;
+import readline;
 
 void parseCommand(char[] s, ref Array!(char[]) args) {
     // TODO: string double quotes: echo "Hello, World"
@@ -15,15 +16,35 @@ void parseCommand(char[] s, ref Array!(char[]) args) {
     }
 }
 
+const string HISTORY_NAME = ".shed_history";
+Array!char historyPath;
+
+extern(C) void cleanup()
+{
+    write_history(historyPath.ptr);
+}
+
 extern(C) int main(int argc, char **argv) {
     Array!(char[]) args;
-    char[1024] inputBuffer;
+
+    char *home = getenv("HOME");
+    assert(home != null);
+
+    historyPath.append(home[0..strlen(home)]);
+    historyPath.append("/");
+    historyPath.append(HISTORY_NAME);
+    historyPath.append(0);
+
+    read_history(historyPath.ptr);
+    atexit(&cleanup);
+
     while (!feof(stdin)) {
-        printf("> ");
-        // TODO: readline support
-        if (!fgets(inputBuffer.ptr, inputBuffer.length, stdin)) break; // stdin is closed
-        auto n = strlen(inputBuffer.ptr);
-        auto input = trim(inputBuffer[0..n]);
+        const string prompt = "> ";
+        auto line = readline.readline(prompt.ptr);
+        scope(exit) free(line);
+        auto n = strlen(line);
+        auto input = line[0..n];
+
         args.length = 0;
         parseCommand(input, args);
         if (args.length == 0) continue; // empty command
@@ -34,6 +55,8 @@ extern(C) int main(int argc, char **argv) {
         default:
             cmdRunSync(args.slice());
         }
+
+        if (line && *line) add_history(line);
     }
     return 0;
 }

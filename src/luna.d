@@ -54,6 +54,10 @@ struct Array(T, ulong INIT_CAPACITY = 256) {
         ptr[length++] = item;
     }
 
+    void append(Range)(Range items) {
+        foreach(item; items) append(item);
+    }
+
     T opIndex(size_t i) {
         assert(i < length);
         return ptr[i];

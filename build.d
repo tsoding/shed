@@ -8,6 +8,16 @@ bool cmd(scope const(char[])[] args) {
 }
 
 int main() {
-    if (!cmd(["dmd", "-betterC", "-of=shed", "-I=./src/", "-i", "./src/main.d"])) return 1;
+    if (!cmd([
+        "dmd",
+        "-betterC",
+        "-of=shed",
+        "-I=./src/",
+        "-i",
+        "./src/main.d",
+        "-L=-l:libreadline.a",
+        "-L=-l:libhistory.a",
+        "-L=-l:libncurses.a",
+    ])) return 1;
     return 0;
 }

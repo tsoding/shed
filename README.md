@@ -7,6 +7,10 @@ Shell in D.
 
 ## Quick Start
 
+System dependencies:
+- [dmd](https://dlang.org/)
+- [readline](https://www.gnu.org/software/readline/)
+
 ```console
 $ rdmd build.d
 $ ./shed
