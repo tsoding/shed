@@ -38,16 +38,19 @@ extern(C) int main(int argc, char **argv) {
     read_history(historyPath.ptr);
     atexit(&cleanup);
 
-    while (!feof(stdin)) {
-        const string prompt = "> ";
+    while (true) {
+        const string prompt = "⛺ ";
         auto line = readline.readline(prompt.ptr);
+        if (line == null) break; // Ctrl-D
         scope(exit) free(line);
+
         auto n = strlen(line);
         auto input = line[0..n];
 
         args.length = 0;
         parseCommand(input, args);
         if (args.length == 0) continue; // empty command
+
         switch (args[0]) {
         case "exit":
             // TODO: support exit code argument
@@ -56,7 +59,7 @@ extern(C) int main(int argc, char **argv) {
             cmdRunSync(args.slice());
         }
 
-        if (line && *line) add_history(line);
+        add_history(line);
     }
     return 0;
 }
