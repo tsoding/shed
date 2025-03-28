@@ -8,28 +8,28 @@ import core.sys.posix.stdlib;
 import core.sys.posix.unistd;
 import core.sys.posix.sys.wait;
 
-inout(char)[] trimLeft(inout(char)[] s) {
+Char[] trimLeft(Char)(Char[] s) {
     while (s.length > 0 && isspace(s[0])) {
         s = s[1..$];
     }
     return s;
 }
 
-inout(char)[] trimRight(inout(char)[] s) {
+Char[] trimRight(Char)(Char[] s) {
     while (s.length > 0 && isspace(s[$-1])) {
         s = s[0..$-1];
     }
     return s;
 }
 
-inout(char)[] trim(inout(char)[] s) {
+Char[] trim(Char)(Char[] s) {
     return trimRight(trimLeft(s));
 }
 
-inout(char)[] chopByDelim(ref inout(char)[] s, char delim) {
+Char[] chopByDelim(Char)(ref Char[] s, Char delim) {
     size_t i = 0;
     while (i < s.length && s[i] != delim) i++;
-    inout(char)[] result;
+    Char[] result;
     if (i >= s.length) {
         result = s;
         s = s[0..0];
