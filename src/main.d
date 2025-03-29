@@ -1,9 +1,8 @@
 import core.stdc.string;
-import core.stdc.stdio;
 import core.stdc.stdlib;
-import core.stdc.ctype;
-import core.stdc.errno;
-import luna;
+import luna.array;
+import luna.string;
+import luna.process;
 import readline;
 
 void parseCommand(char[] s, ref Array!(char[]) args) {
