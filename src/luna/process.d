@@ -1,3 +1,4 @@
+// Run external processes
 import array;
 import string;
 
@@ -7,6 +8,9 @@ import core.stdc.string;
 import core.stdc.errno;
 import core.sys.posix.unistd;
 import core.sys.posix.sys.wait;
+
+// TODO: support for Windows
+// Steal some code from https://github.com/tsoding/nob.h if needed
 
 int __WTERMSIG(int status)   { return status & 0x7F;                              }
 bool WIFEXITED(int status)   { return __WTERMSIG(status) == 0;                    }

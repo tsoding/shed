@@ -1,3 +1,4 @@
+// Dynamic Arrays in D
 import core.stdc.stdlib;
 
 struct Array(T, ulong INIT_CAPACITY = 256) {

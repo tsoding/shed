@@ -1,3 +1,4 @@
+// String operations
 import core.stdc.ctype;
 import core.stdc.stdlib;
 import core.stdc.string;
